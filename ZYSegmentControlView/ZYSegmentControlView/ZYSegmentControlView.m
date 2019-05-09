@@ -28,7 +28,7 @@
     return _selectedColor;
 }
 
-- (CGFloat)lineheight {
+- (CGFloat)lineHeight {
     if (!_lineHeight) {
         // 默认值
         return 3;
