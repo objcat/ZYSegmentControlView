@@ -23,7 +23,7 @@
 - (UIColor *)selectedColor {
     if (!_selectedColor) {
         // 默认值
-        return [UIColor blueColor];
+        return [UIColor colorWithRed:11 / 255.0 green:114 / 255.0 blue:255 / 255.0 alpha:1];
     }
     return _selectedColor;
 }
@@ -31,7 +31,7 @@
 - (CGFloat)lineHeight {
     if (!_lineHeight) {
         // 默认值
-        return 3;
+        return 2;
     }
     return _lineHeight;
 }
@@ -97,6 +97,12 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    // 如果选中的是当前行, 不做任何操作
+    if (self.selectedIndex == indexPath.item) {
+        return;
+    }
+    // 设置选中
+    self.selectedIndex = indexPath.item;
     // 设置cell样式
     [self configCellWithIndexPath:indexPath];
     // 设置线型滑块样式
@@ -116,14 +122,9 @@
 }
 
 - (void)configLineWithIndexPath:(NSIndexPath *)indexPath {
-    // 如果选中的是当前行, 不做任何操作
-    if (self.selectedIndex == indexPath.item) {
-        return;
-    }
     // 改变小滑块的位置
-    self.selectedIndex = indexPath.item;
     CGFloat width = 0;
-    for (NSInteger i = 0; i < self.selectedIndex; i++) {
+    for (NSInteger i = 0; i < indexPath.item; i++) {
         ZYSegmentModel *model = self.arr[i];
         width += model.cellWidth;
     }
@@ -134,10 +135,6 @@
 }
 
 - (void)configBlockWithIndexPath:(NSIndexPath *)indexPath {
-    // 如果选中的是当前行, 不做任何操作
-    if (self.selectedIndex == indexPath.item) {
-        return;
-    }
     // 选中回调
     self.selectedAtIndexBlock ? self.selectedAtIndexBlock(indexPath.item) : nil;
 }
@@ -163,3 +160,4 @@
 }
 
 @end
+
